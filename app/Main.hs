@@ -3,9 +3,10 @@ module Main where
 import Data.List.Split
 import DayOne as DayOne
 import DayTwo as DayTwo
+import DayThree as DayThree
 
 main :: IO ()
-main = dayTwo
+main = dayThree
 
 dayOne :: IO ()
 dayOne =
@@ -30,4 +31,17 @@ dayTwo =
         let final = DayTwo.verbNounInput program 2 12
         putStrLn $ show final
         DayTwo.bruteForce program
+
+dayThree :: IO ()
+dayThree =
+    do
+        putStrLn "Day three"
+        input <- readFile "./inputs/daythree"
+        putStrLn "part one"
+        let [a, b] = lines input
+        let final = DayThree.findShortestPoint a b
+        putStrLn $ show final
+        putStrLn "part two"
+        let steps = DayThree.findShortestSteps a b
+        putStrLn $ show steps
 

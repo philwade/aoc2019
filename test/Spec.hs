@@ -1,6 +1,7 @@
 import Test.Hspec
 import DayOne as DayOne
 import DayTwo as DayTwo
+import DayThree as DayThree
 
 main :: IO ()
 main = hspec $ do
@@ -38,3 +39,33 @@ main = hspec $ do
                 DayTwo.runProgram [2,4,4,5,99,0] `shouldBe` [2,4,4,5,99,9801]
             it "should update programs" $
                 DayTwo.runProgram [1,1,1,4,99,5,6,0,99] `shouldBe` [30,1,1,4,2,5,6,0,99]
+        describe "day three basics" $ do
+            it "should map to the type" $
+                DayThree.parseMoves ["L10", "D1", "R100", "U18"] `shouldBe` [Left' 10, Down 1, Right' 100, Up 18]
+            it "should build intermediate values left" $
+                DayThree.createIntermediateValues (Left' 3) (0,0) `shouldBe` [(-3,0), (-2, 0), (-1, 0), (0, 0)]
+            it "should build intermediate values right" $
+                DayThree.createIntermediateValues (Right' 3) (0,0) `shouldBe` [(3,0), (2, 0), (1, 0), (0, 0)]
+            it "should build intermediate values down" $
+                DayThree.createIntermediateValues (Down 3) (0,0) `shouldBe` [(0,-3), (0, -2), (0, -1), (0, 0)]
+            it "should build intermediate values up" $
+                DayThree.createIntermediateValues (Up 3) (0,0) `shouldBe` [(0,3), (0, 2), (0, 1), (0, 0)]
+            it "should build do the whole list and come back normal" $
+                DayThree.mapRoute [Up 3, Down 3] `shouldBe` [(0, 0), (0, 1), (0, 2), (0, 3), (0, 2), (0, 1), (0,0)]
+            it "should do manhattan distance" $
+                DayThree.manhattanDistance (-2, 3) `shouldBe` 5
+            it "sohuld count steps" $
+                DayThree.countSteps [(1,1), (5,5)] [(0,0), (0,80), (1,1), (80, 0), (5, 5)] `shouldBe` [2, 4]
+        describe "day three tests" $ do
+            it "should pass the first test" $
+                DayThree.findShortestPoint "R75,D30,R83,U83,L12,D49,R71,U7,L72" "U62,R66,U55,R34,D71,R55,D58,R83" `shouldBe` 159
+            it "should pass the second test" $
+                DayThree.findShortestPoint "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51" "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7" `shouldBe` 135
+        describe "day three part two tests" $ do
+            it "should pass the base case" $ do
+                DayThree.findShortestSteps "R8,U5,L5,D3" "U7,R6,D4,L4" `shouldBe` 30
+            it "should pass the first test" $
+                DayThree.findShortestSteps "R75,D30,R83,U83,L12,D49,R71,U7,L72" "U62,R66,U55,R34,D71,R55,D58,R83" `shouldBe` 610
+            it "should pass the second test" $
+                DayThree.findShortestSteps "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51" "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7" `shouldBe` 410
+
